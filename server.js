@@ -2,15 +2,15 @@
 
 const express = require("express");
 const cors = require("cors");
-const connectDB = require("./config/connect_db");
-const authRoutes = require("./Routes/authRoutes");
-const userRoutes = require("./Routes/userRoutes");
+const connectDB = require("./config/connect_db.js");
+const authRoutes = require("./Routes/authRoutes.js");
+const userRoutes = require("./Routes/userRoutes.js");
 const productRoutes = require("./Routes/productRoutes.js");
-const dashboardRoutes = require("./Routes/dashboardRoutes");
-const orderRouter = require("./Routes/orderRoutes");
+const dashboardRoutes = require("./Routes/dashboardRoutes.js");
+const orderRouter = require("./Routes/orderRoutes.js");
 const customerRouter = require("./Routes/customerRoutes.js");
 const contactRouter = require("./Routes/contactRoutes.js");
-const statisticsRouter = require("./Routes/statisticsRoutes");
+const statisticsRouter = require("./Routes/statisticsRoutes.js");
 const app = express();
 app.use(express.json());
 app.use(cors());
