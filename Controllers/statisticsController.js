@@ -1,7 +1,7 @@
-const Product = require("../Models/productModel");
-const Order = require("../Models/orderModel");
-const Auth = require("../Models/authModel");
-const Contact = require("../Models/contactModel");
+const Product = require("../Models/productModel.js");
+const Order = require("../Models/orderModel.js");
+const Auth = require("../Models/authModel.js");
+const Contact = require("../Models/contactModel.js");
 
 const getStatistics = async (req, res) => {
   try {
