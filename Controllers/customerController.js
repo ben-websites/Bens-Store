@@ -1,5 +1,5 @@
-const Auth = require("../Models/authModel");
-const Order = require("../Models/orderModel");
+const Auth = require("../Models/authModel.js");
+const Order = require("../Models/orderModel.js");
 
 const getCustomers = async (req, res) => {
   try {
