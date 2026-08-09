@@ -1,4 +1,4 @@
-```js
+
 const Auth = require("../Models/authModel");
 const cloudinary = require("../config/cloudnary.js");
 
@@ -137,4 +137,4 @@ module.exports = {
   GetProfile,
   UpdateProfile,
 };
-```
+
