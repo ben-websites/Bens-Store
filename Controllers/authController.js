@@ -1,60 +1,65 @@
-
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const Auth = require("../Models/authModel.js");
+const Notification = require("../Models/notificationModel.js");
 
 // =====================================
 // REGISTER
 // =====================================
 
 const Register = async (req, res) => {
-  try {
-    const {
-      name,
-      email,
-      password,
-    } = req.body;
+try {
+const {
+name,
+email,
+password,
+} = req.body;
 
-    const user = await Auth.findOne({ email });
+```
+const user = await Auth.findOne({ email });
 
-    if (user) {
-      return res.json({
-        message: "This email is already in use",
-        success: false,
-      });
-    }
+if (user) {
+  return res.json({
+    message: "This email is already in use",
+    success: false,
+  });
+}
 
-    if (password.length < 8) {
-      return res.json({
-        message: "Password must be at least 8 characters",
-        success: false,
-      });
-    }
+if (password.length < 8) {
+  return res.json({
+    message: "Password must be at least 8 characters",
+    success: false,
+  });
+}
 
-    const hashpassword = await bcrypt.hash(password, 10);
+const hashpassword = await bcrypt.hash(password, 10);
 
-    const account = await Auth.create({
-      name: name,
-      email: email,
-      password: hashpassword,
-    });
+const account = await Auth.create({
+  name: name,
+  email: email,
+  password: hashpassword,
+});
 
-    res.json({
-      message: "Account created",
-      success: true,
-      data: account,
-    });
+res.json({
+  message: "Account created",
+  success: true,
+  data: account,
+});
+```
 
-  } catch (error) {
-    console.log("Register Error:", error);
+} catch (error) {
+console.log("Register Error:", error);
 
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
+```
+res.status(500).json({
+  success: false,
+  message: error.message,
+});
+```
+
+}
 };
 
 // =====================================
@@ -62,62 +67,90 @@ const Register = async (req, res) => {
 // =====================================
 
 const Login = async (req, res) => {
-  try {
-    const {
-      email,
-      password,
-    } = req.body;
+try {
+const {
+email,
+password,
+} = req.body;
 
-    const user = await Auth.findOne({ email });
+```
+const user = await Auth.findOne({ email });
 
-    if (!user) {
-      return res.json({
-        message: "User not found",
-        success: false,
-      });
-    }
+if (!user) {
+  return res.json({
+    message: "User not found",
+    success: false,
+  });
+}
 
-    const matchpass = await bcrypt.compare(
-      password,
-      user.password
-    );
+const matchpass = await bcrypt.compare(
+  password,
+  user.password
+);
 
-    if (!matchpass) {
-      return res.json({
-        message: "Password does not match",
-        success: false,
-      });
-    }
+if (!matchpass) {
+  return res.json({
+    message: "Password does not match",
+    success: false,
+  });
+}
 
-    const token = jwt.sign(
-      {
-        id: user._id,
-        role: user.role,
-      },
-      process.env.MY_KEY,
-      {
-        expiresIn: "7d",
-      }
-    );
+// =====================================
+// CREATE LOGIN NOTIFICATION
+// =====================================
 
-    res.json({
-      message: `Welcome ${user.name}`,
-      token: token,
-      role: user.role,
-      name: user.name,
-      userId: user._id,
-      email: user.email,
-      success: true,
-    });
+// Only customers create login notifications.
+// Admin logins will NOT create notifications.
+if (user.role === "user") {
+  await Notification.create({
+    type: "login",
+    title: "New Customer Login",
+    message: `${user.name} has logged into their account.`,
+    userId: user._id,
+  });
+}
 
-  } catch (error) {
-    console.log("Login Error:", error);
+// =====================================
+// CREATE JWT TOKEN
+// =====================================
 
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+const token = jwt.sign(
+  {
+    id: user._id,
+    role: user.role,
+  },
+  process.env.MY_KEY,
+  {
+    expiresIn: "7d",
   }
+);
+
+// =====================================
+// LOGIN RESPONSE
+// =====================================
+
+res.json({
+  message: `Welcome ${user.name}`,
+  token: token,
+  role: user.role,
+  name: user.name,
+  userId: user._id,
+  email: user.email,
+  success: true,
+});
+```
+
+} catch (error) {
+console.log("Login Error:", error);
+
+```
+res.status(500).json({
+  success: false,
+  message: error.message,
+});
+```
+
+}
 };
 
 // =====================================
@@ -125,7 +158,6 @@ const Login = async (req, res) => {
 // =====================================
 
 module.exports = {
-  Register,
-  Login,
+Register,
+Login,
 };
-
