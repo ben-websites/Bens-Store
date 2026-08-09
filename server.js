@@ -13,6 +13,7 @@ const contactRouter = require("./Routes/contactRoutes.js");
 const statisticsRouter = require("./Routes/statisticsRoutes.js");
 const settingsRouter = require("./Routes/settingsRoutes.js");
 const profileRoutes = require("./Routes/profileRoutes.js");
+const notificationRouter = require("./Routes/notificationRoutes.js");
 const app = express();
 app.use(express.json());
 app.use(
@@ -38,6 +39,7 @@ app.use(contactRouter);
 app.use(statisticsRouter);
 app.use("/", settingsRouter);
 app.use(profileRoutes);
+app.use(notificationRouter);
 
 //Localhost
 //  connectDB().then(() => {
