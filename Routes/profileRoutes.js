@@ -1,14 +1,27 @@
+```js
 const express = require("express");
 
 const {
-  getProfile,
-  updateProfile,
-} = require("../Controllers/profileController");
+  GetProfile,
+  UpdateProfile,
+} = require("../Controllers/profileController.js");
+
+const upload = require("../Middleware/uploadMiddleware.js");
 
 const router = express.Router();
 
-router.get("/profile/:id", getProfile);
+// Get profile
+router.get(
+  "/profile/:id",
+  GetProfile
+);
 
-router.put("/profile/:id", updateProfile);
+// Update profile
+router.put(
+  "/profile/:id",
+  upload.single("profilePic"),
+  UpdateProfile
+);
 
 module.exports = router;
+```
