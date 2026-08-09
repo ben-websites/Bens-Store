@@ -11,6 +11,7 @@ const orderRouter = require("./Routes/orderRoutes.js");
 const customerRouter = require("./Routes/customerRoutes.js");
 const contactRouter = require("./Routes/contactRoutes.js");
 const statisticsRouter = require("./Routes/statisticsRoutes.js");
+const settingsRouter = require("./Routes/settingsRoutes.js");
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -24,6 +25,7 @@ app.use(orderRouter);
 app.use(customerRouter);
 app.use(contactRouter);
 app.use(statisticsRouter);
+app.use("/", settingsRouter);
 
 //Localhost
 //  connectDB().then(() => {
