@@ -9,6 +9,31 @@ const authModel =new mongoose.Schema({
     enum: ["user", "admin"],
     default: "user",
   },
+     // Profile information
+    profilePic: {
+      type: String,
+      default: "",
+    },
+
+    phone: {
+      type: String,
+      default: "",
+    },
+
+    address: {
+      type: String,
+      default: "",
+    },
+
+    city: {
+      type: String,
+      default: "",
+    },
+
+    postalCode: {
+      type: String,
+      default: "",
+    },
 },
 {
     versionKey:false
