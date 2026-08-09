@@ -12,6 +12,7 @@ const customerRouter = require("./Routes/customerRoutes.js");
 const contactRouter = require("./Routes/contactRoutes.js");
 const statisticsRouter = require("./Routes/statisticsRoutes.js");
 const settingsRouter = require("./Routes/settingsRoutes.js");
+const profileRoutes = require("./Routes/profileRoutes.js");
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -26,6 +27,7 @@ app.use(customerRouter);
 app.use(contactRouter);
 app.use(statisticsRouter);
 app.use("/", settingsRouter);
+app.use(profileRoutes);
 
 //Localhost
 //  connectDB().then(() => {
