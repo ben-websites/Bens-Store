@@ -15,7 +15,17 @@ const settingsRouter = require("./Routes/settingsRoutes.js");
 const profileRoutes = require("./Routes/profileRoutes.js");
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "https://react-olive-three.vercel.app",
+      "http://localhost:5173",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
 
 //Routes
 app.use(authRoutes);
