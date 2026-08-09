@@ -17,14 +17,5 @@ authrouter.post(
   authController.Login
 );
 
-authrouter.put(
-  "/profile/:id",
-  upload.single("profilePic"),
-  authController.UpdateProfile
-);
-authrouter.get(
-  "/profile/:id",
-  authController.GetProfile
-);
 
 module.exports = authrouter;
