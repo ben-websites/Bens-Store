@@ -90,11 +90,13 @@ if (!matchpass) {
 
 
 if (user.role === "user") {
-  await Notification.create({
+  Notification.create({
     type: "login",
     title: "New Customer Login",
     message: `${user.name} has logged into their account.`,
     userId: user._id,
+  }).catch((error) => {
+    console.log("Login Notification Error:", error.message);
   });
 }
 
