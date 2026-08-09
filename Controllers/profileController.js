@@ -26,15 +26,6 @@ const getProfile = async (req, res) => {
 
 const updateProfile = async (req, res) => {
   try {
-    const {
-      name,
-      phone,
-      address,
-      city,
-      postalCode,
-      profilePic,
-    } = req.body;
-
     const user = await Auth.findById(req.params.id);
 
     if (!user) {
@@ -44,24 +35,35 @@ const updateProfile = async (req, res) => {
       });
     }
 
-    user.name = name || user.name;
-    user.phone = phone || "";
-    user.address = address || "";
-    user.city = city || "";
-    user.postalCode = postalCode || "";
-    user.profilePic = profilePic || "";
+    const updateData = {
+      name: req.body.name,
+      phone: req.body.phone,
+      address: req.body.address,
+      city: req.body.city,
+      postalCode: req.body.postalCode,
+    };
 
-    await user.save();
+    // Only update profilePic if a new value was actually provided
+    if (req.body.profilePic) {
+      updateData.profilePic = req.body.profilePic;
+    }
 
-    const updatedUser = await Auth.findById(req.params.id)
-      .select("-password");
+    const updatedUser = await Auth.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: updateData,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    ).select("-password");
 
     res.json({
       success: true,
       message: "Profile updated successfully",
       data: updatedUser,
     });
-
   } catch (error) {
     res.status(500).json({
       success: false,
