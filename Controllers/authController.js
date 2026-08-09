@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 require("dotenv").config()
 const Auth = require('../Models/authModel.js')
 const { findOne } = require('../Models/authModel.js')
-const cloudinary = require("../config/cloudinary");
+const cloudinary = require("../config/cloudnary.js");
 
 
 const UpdateProfile = async (req, res) => {
