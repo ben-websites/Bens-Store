@@ -1,4 +1,4 @@
-```js
+
 const express = require("express");
 
 const {
@@ -24,4 +24,3 @@ router.put(
 );
 
 module.exports = router;
-```
