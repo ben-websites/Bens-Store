@@ -5,9 +5,6 @@ require("dotenv").config();
 const Auth = require("../Models/authModel.js");
 const Notification = require("../Models/notificationModel.js");
 
-// =====================================
-// REGISTER
-// =====================================
 
 const Register = async (req, res) => {
 try {
@@ -17,7 +14,7 @@ email,
 password,
 } = req.body;
 
-```
+
 const user = await Auth.findOne({ email });
 
 if (user) {
@@ -47,24 +44,19 @@ res.json({
   success: true,
   data: account,
 });
-```
 
 } catch (error) {
 console.log("Register Error:", error);
 
-```
 res.status(500).json({
   success: false,
   message: error.message,
 });
-```
+
 
 }
 };
 
-// =====================================
-// LOGIN
-// =====================================
 
 const Login = async (req, res) => {
 try {
@@ -73,7 +65,7 @@ email,
 password,
 } = req.body;
 
-```
+
 const user = await Auth.findOne({ email });
 
 if (!user) {
@@ -95,12 +87,8 @@ if (!matchpass) {
   });
 }
 
-// =====================================
-// CREATE LOGIN NOTIFICATION
-// =====================================
 
-// Only customers create login notifications.
-// Admin logins will NOT create notifications.
+
 if (user.role === "user") {
   await Notification.create({
     type: "login",
@@ -109,10 +97,6 @@ if (user.role === "user") {
     userId: user._id,
   });
 }
-
-// =====================================
-// CREATE JWT TOKEN
-// =====================================
 
 const token = jwt.sign(
   {
@@ -125,9 +109,6 @@ const token = jwt.sign(
   }
 );
 
-// =====================================
-// LOGIN RESPONSE
-// =====================================
 
 res.json({
   message: `Welcome ${user.name}`,
@@ -138,24 +119,21 @@ res.json({
   email: user.email,
   success: true,
 });
-```
+
 
 } catch (error) {
 console.log("Login Error:", error);
 
-```
+
 res.status(500).json({
   success: false,
   message: error.message,
 });
-```
+
 
 }
 };
 
-// =====================================
-// EXPORTS
-// =====================================
 
 module.exports = {
 Register,
