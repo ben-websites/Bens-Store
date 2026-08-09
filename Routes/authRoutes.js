@@ -22,5 +22,9 @@ authrouter.put(
   upload.single("profilePic"),
   authController.UpdateProfile
 );
+authrouter.get(
+  "/profile/:id",
+  authController.GetProfile
+);
 
 module.exports = authrouter;
