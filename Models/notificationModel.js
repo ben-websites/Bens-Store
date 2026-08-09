@@ -8,7 +8,7 @@ enum: ["login", "order", "message"],
 required: true,
 },
 
-```
+
 title: {
   type: String,
   required: true,
@@ -35,7 +35,7 @@ isRead: {
   type: Boolean,
   default: false,
 },
-```
+
 
 },
 {
