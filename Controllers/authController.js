@@ -80,6 +80,34 @@ const UpdateProfile = async (req, res) => {
     }
 };
 
+const GetProfile = async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    const user = await Auth.findById(userId).select("-password");
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found"
+      });
+    }
+
+    res.json({
+      success: true,
+      data: user
+    });
+
+  } catch (error) {
+    console.log("Get Profile Error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+
 const Register = async (req, res) => {
     try {
         const { name, email, password } = req.body
