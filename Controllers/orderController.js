@@ -1,15 +1,33 @@
 const Order = require("../Models/orderModel.js");
+const Notification = require("../Models/notificationModel.js");
 
+// Place Order
 // Place Order
 const placeOrder = async (req, res) => {
   try {
     const order = await Order.create(req.body);
+
+    // Create admin notification
+    // Do not let notification failure break the order.
+    Notification.create({
+      type: "order",
+      title: "New Order Received",
+      message: "A customer has placed a new order.",
+      userId: order.userId || null,
+      orderId: order._id,
+    }).catch((error) => {
+      console.log(
+        "Order Notification Error:",
+        error.message
+      );
+    });
 
     return res.status(201).json({
       success: true,
       message: "Order placed successfully",
       data: order,
     });
+
   } catch (error) {
     return res.status(500).json({
       success: false,
