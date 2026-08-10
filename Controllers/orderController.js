@@ -2,10 +2,7 @@ const Order = require("../Models/orderModel.js");
 const Notification = require("../Models/notificationModel.js");
 const Settings = require("../Models/settingsModel.js");
 const placeOrder = async (req, res) => {
-  try {// Place Order
-const placeOrder = async (req, res) => {
   try {
-    // Get current store settings
     const settings = await Settings.findOne();
 
     // If store is closed, do not allow orders
