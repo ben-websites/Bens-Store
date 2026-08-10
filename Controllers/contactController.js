@@ -1,15 +1,31 @@
 const Contact = require("../Models/contactModel.js");
+const Notification = require("../Models/notificationModel.js");
 
 // Add Message
 const addMessage = async (req, res) => {
   try {
     const message = await Contact.create(req.body);
 
+    // Create admin notification
+    // Notification failure should NOT stop the message from being sent.
+    Notification.create({
+      type: "message",
+      title: "New Contact Message",
+      message: `${message.name || "A customer"} has sent a new message.`,
+      userId: message.userId || null,
+    }).catch((error) => {
+      console.log(
+        "Message Notification Error:",
+        error.message
+      );
+    });
+
     res.status(201).json({
       success: true,
       message: "Message sent successfully",
       data: message,
     });
+
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -17,7 +33,6 @@ const addMessage = async (req, res) => {
     });
   }
 };
-
 // Get All Messages
 const getMessages = async (req, res) => {
   try {
