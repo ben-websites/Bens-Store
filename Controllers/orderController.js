@@ -1,10 +1,22 @@
 const Order = require("../Models/orderModel.js");
 const Notification = require("../Models/notificationModel.js");
-
-// Place Order
-// Place Order
+const Settings = require("../Models/settingsModel.js");
+const placeOrder = async (req, res) => {
+  try {// Place Order
 const placeOrder = async (req, res) => {
   try {
+    // Get current store settings
+    const settings = await Settings.findOne();
+
+    // If store is closed, do not allow orders
+    if (settings && settings.storeOpen === false) {
+      return res.status(403).json({
+        success: false,
+        message: "The store is currently closed. Orders cannot be placed.",
+      });
+    }
+
+    // Create order
     const order = await Order.create(req.body);
 
     // Create admin notification
@@ -27,7 +39,6 @@ const placeOrder = async (req, res) => {
       message: "Order placed successfully",
       data: order,
     });
-
   } catch (error) {
     return res.status(500).json({
       success: false,
